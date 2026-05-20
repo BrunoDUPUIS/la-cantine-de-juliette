@@ -1,3 +1,42 @@
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+// IMPORT DES IMAGES DEPUIS /assets
+import img1 from './assets/img/restaurant1.jpg'
+import img2 from './assets/img/restaurant2.jpg'
+import img3 from './assets/img/restaurant3.jpg'
+import img4 from './assets/img/restaurant4.jpg'
+import img5 from './assets/img/restaurant5.jpg'
+
+// Tableau des images
+const images = [img1, img2, img3, img4, img5]
+
+// Image actuellement affichée
+const currentImage = ref(images[0])
+
+let currentIndex = 0
+let interval = null
+
+// Changement automatique toutes les 5 secondes
+onMounted(() => {
+  interval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % images.length
+    currentImage.value = images[currentIndex]
+  }, 5000)
+})
+
+// Nettoyage
+onBeforeUnmount(() => {
+  clearInterval(interval)
+})
+
+const showMenu = ref(false)
+
+const openMenu = () => {
+  window.open('https://maps.app.goo.gl/UuLmcp3S9pscDbn88', '_blank')
+}
+</script>
+
 <template>
   <div class="home-page">
     <!-- BANDEAU DÉFILANT -->
@@ -14,7 +53,7 @@
       <div class="overlay"></div>
 
       <div class="hero-content">
-        <h1>La Cantine de Juliette</h1>
+        <h1 class="name">La Cantine de Juliette</h1>
         <p>Une expérience culinaire unique dans les Landes</p>
 
         <div class="buttons">
@@ -118,48 +157,6 @@
     </footer>
   </div>
 </template>
-
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-
-// IMPORT DES IMAGES DEPUIS /assets
-import img1 from './assets/img/restaurant1.jpg'
-import img2 from './assets/img/restaurant2.jpg'
-import img3 from './assets/img/restaurant3.jpg'
-import img4 from './assets/img/restaurant4.jpg'
-import img5 from './assets/img/restaurant5.jpg'
-
-// Tableau des images
-const images = [img1, img2, img3, img4, img5]
-
-// Image actuellement affichée
-const currentImage = ref(images[0])
-
-let currentIndex = 0
-let interval = null
-
-// Changement automatique toutes les 5 secondes
-onMounted(() => {
-  interval = setInterval(() => {
-    currentIndex = (currentIndex + 1) % images.length
-    currentImage.value = images[currentIndex]
-  }, 5000)
-})
-
-// Nettoyage
-onBeforeUnmount(() => {
-  clearInterval(interval)
-})
-
-const showMenu = ref(false)
-
-const toggleMenu = () => {
-  showMenu.value = !showMenu.value
-}
-const openMenu = () => {
-  window.open('https://maps.app.goo.gl/UuLmcp3S9pscDbn88', '_blank')
-}
-</script>
 
 <style scoped>
 * {
@@ -477,6 +474,11 @@ button {
   .footer-top {
     flex-direction: column;
     gap: 40px;
+  }
+}
+@media (max-width: 500px) {
+  .hero-content h1 {
+    font-size: 50px;
   }
 }
 </style>
